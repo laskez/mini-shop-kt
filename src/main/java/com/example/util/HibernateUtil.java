@@ -25,7 +25,6 @@ public class HibernateUtil {
             System.out.println("Hibernate SessionFactory создана");
         } catch (Exception e) {
             System.err.println("Ошибка создания SessionFactory: " + e);
-            e.printStackTrace();
         }
     }
 

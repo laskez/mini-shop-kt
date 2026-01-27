@@ -3,8 +3,6 @@ package com.example.listener;
 import com.example.dao.ProductDao;
 import com.example.model.Product;
 import com.example.util.HibernateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -16,22 +14,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebListener
 public class AppInitListener implements ServletContextListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppInitListener.class);
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.info("Инициализация каталога товаров");
+        System.out.println("Инициализация каталога товаров");
 
         try {
             HibernateUtil.getSessionFactory().openSession().close();
-            logger.info("Соединение с PostgreSQL установлено");
+            System.out.println("Соединение с PostgreSQL установлено");
 
             initializeTestData();
-
             loadCatalogToApplicationScope(sce.getServletContext());
 
         } catch (Exception e) {
-            logger.error("Ошибка инициализации БД", e);
+            System.err.println("Ошибка инициализации БД: " + e.getMessage());
         }
     }
 
@@ -39,7 +34,7 @@ public class AppInitListener implements ServletContextListener {
         ProductDao dao = new ProductDao();
 
         if (dao.getAllProducts().isEmpty()) {
-            logger.info("Создание тестовых товаров в БД");
+            System.out.println("Создание тестовых товаров");
 
             dao.saveProduct(new Product("Ноутбук", new BigDecimal("69999.99"), 6));
             dao.saveProduct(new Product("Мышь", new BigDecimal("3299.99"), 38));
@@ -47,15 +42,14 @@ public class AppInitListener implements ServletContextListener {
             dao.saveProduct(new Product("Клавиатура", new BigDecimal("5449.99"), 19));
             dao.saveProduct(new Product("Наушники", new BigDecimal("11999.99"), 26));
 
-            logger.info("Создано 5 тестовых товаров в БД");
+            System.out.println("Создано 5 тестовых товаров");
         } else {
-            logger.info("Товары уже есть в БД");
+            System.out.println("Товары уже есть в БД");
         }
     }
 
     private void loadCatalogToApplicationScope(ServletContext context) {
         ProductDao dao = new ProductDao();
-
         var products = dao.getAllProducts();
 
         ConcurrentHashMap<Long, Product> catalogMap = new ConcurrentHashMap<>();
@@ -71,13 +65,12 @@ public class AppInitListener implements ServletContextListener {
         }
 
         context.setAttribute("catalogMap", catalogMap);
-
-        logger.info("Загружено {} товаров в Application Scope (ConcurrentHashMap)", catalogMap.size());
+        System.out.println("Загружено " + catalogMap.size() + " товаров в Application Scope");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        logger.info("Приложение завершено");
+        System.out.println("Приложение завершено");
         HibernateUtil.shutdown();
     }
 }

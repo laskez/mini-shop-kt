@@ -2,8 +2,6 @@ package com.example.shop;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,14 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet("/shop")
 public class ShopPageServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShopPageServlet.class);
     private final ProductDao productDao = new ProductDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        logger.debug("Отображение страницы магазина");
 
         ServletContext context = getServletContext();
         @SuppressWarnings("unchecked")
@@ -84,7 +79,6 @@ public class ShopPageServlet extends HttpServlet {
             catalogMap.put(product.getId(), productCopy);
         }
 
-        logger.info("Загружено {} товаров из БД в Application Scope", catalogMap.size());
         return catalogMap;
     }
 

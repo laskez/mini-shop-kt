@@ -2,8 +2,6 @@ package com.example.shop;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet("/shop/add")
 public class MainServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private final ProductDao productDao = new ProductDao();
 
     @Override
@@ -137,9 +134,6 @@ public class MainServlet extends HttpServlet {
             cartMap.put(productId, newQuantity);
             session.setAttribute("cart", cartMap);
         }
-
-        logger.info("Товар ID {} добавлен в корзину ({} шт.). Остаток на складе: {}",
-                productId, quantityToAdd, product.getStock());
 
         resp.sendRedirect(req.getContextPath() + "/shop?added=" + productId);
     }

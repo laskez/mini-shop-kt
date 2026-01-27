@@ -456,15 +456,15 @@
         </c:if>
 
         <c:if test="${not empty param.added}">
-            <div class="alert alert-success">✅ Товар добавлен в корзину</div>
+            <div class="alert alert-success">Товар добавлен в корзину</div>
         </c:if>
 
         <c:if test="${not empty param.msg && param.msg == 'cleared'}">
-            <div class="alert alert-info">🗑️ Корзина очищена</div>
+            <div class="alert alert-info">🗑Корзина очищена</div>
         </c:if>
 
         <c:if test="${not empty param.msg && param.msg == 'order-success'}">
-            <div class="alert alert-success">🎉 Заказ успешно оформлен! Спасибо за покупку!</div>
+            <div class="alert alert-success">Заказ успешно оформлен!</div>
         </c:if>
     </div>
 

@@ -2,8 +2,6 @@ package com.example.shop;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet("/shop/update-cart")
 public class UpdateCartServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(UpdateCartServlet.class);
     private final ProductDao productDao = new ProductDao();
 
     @Override
@@ -54,7 +51,6 @@ public class UpdateCartServlet extends HttpServlet {
                     }
 
                     session.removeAttribute("cart");
-                    logger.info("Корзина очищена. Все товары возвращены на склад.");
                 }
             }
             resp.sendRedirect(req.getContextPath() + "/shop?msg=cleared");
@@ -100,8 +96,6 @@ public class UpdateCartServlet extends HttpServlet {
                 } else {
                     session.setAttribute("cart", cart);
                 }
-
-                logger.info("Товар ID {} удален из корзины. Возвращено {} шт.", productId, currentQty);
             }
         }
 

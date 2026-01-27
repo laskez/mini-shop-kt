@@ -2,8 +2,6 @@ package com.example.shop;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet("/shop/update-cart-quantity")
 public class UpdateCartQuantityServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(UpdateCartQuantityServlet.class);
     private final ProductDao productDao = new ProductDao();
 
     @Override
@@ -135,7 +132,6 @@ public class UpdateCartQuantityServlet extends HttpServlet {
                     }
 
                 } catch (NumberFormatException e) {
-                    logger.warn("Некорректное количество: {}", quantityParam);
                 }
             }
 
